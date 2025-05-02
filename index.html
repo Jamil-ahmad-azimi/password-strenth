@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Password Strength Checker</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #5f72be, #9b23ea);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .input-group {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+
+    .input-group input {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-right: none;
+      border-radius: 8px 0 0 8px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .input-group button {
+      padding: 10px 16px;
+      border: 2px solid #ccc;
+      border-left: none;
+      border-radius: 0 8px 8px 0;
+      background-color: #eee;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .input-group button:hover {
+      background-color: #ddd;
+    }
+
+    .message {
+      margin-top: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    /* Strength Colors */
+    .weak {
+      border-color: #ff1e1e !important;
+      background-color: #ffe5e5 !important;
+      color: #b30000 !important;
+    }
+
+    .medium {
+      border-color: #ff8800 !important;
+      background-color: #fff0cc !important;
+      color: #cc6600 !important;
+    }
+
+    .strong {
+      border-color: #00c851 !important;
+      background-color: #d0f5e0 !important;
+      color: #007e33 !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h3>Check Password Strength</h3>
+    <div class="input-group">
+      <input type="password" class="password" placeholder="Enter your password">
+      <button class="toggle-btn">Show</button>
+    </div>
+    <p class="message"></p>
+  </div>
+
+  <script>
+    const passwordInput = document.querySelector(".password");
+    const message = document.querySelector(".message");
+    const toggleBtn = document.querySelector(".toggle-btn");
+
+    toggleBtn.addEventListener("click", () => {
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+      toggleBtn.textContent = type === "password" ? "Show" : "Hide";
+    });
+
+    passwordInput.addEventListener("input", () => {
+      const value = passwordInput.value;
+      passwordInput.classList.remove("weak", "medium", "strong");
+      message.textContent = "";
+      
+      if (value.length < 4) {
+        passwordInput.classList.add("weak");
+        message.textContent = "🔴 Password is Weak";
+        message.style.color = "#b30000";
+      } else if (value.length >= 4 && value.length < 8) {
+        passwordInput.classList.add("medium");
+        message.textContent = "🟠 Password is Medium";
+        message.style.color = "#cc6600";
+      } else if (value.length >= 8) {
+        passwordInput.classList.add("strong");
+        message.textContent = "🟢 Password is Strong";
+        message.style.color = "#007e33";
+      }
+    });
+  </script>
+</body>
+</html>
